@@ -46,8 +46,7 @@
         "workspacetime.pattern": {
           "type": "string",
           "default": "$hours:$minutes:$seconds elapsed in $name",
-          "markdownDescription": 
-          "The text pattern that will be displayed in the status bar item. `$hours`, `$minutes`, and `$seconds` will be replaced with the corresponding lengths of time. Minutes and seconds will be always be two digits while the number of digits in the hours is variable. `$name` will be replaced with the name of the workspace."
+          "markdownDescription": "The text pattern that will be displayed in the status bar item. `$hours`, `$minutes`, and `$seconds` will be replaced with the corresponding lengths of time. Minutes and seconds will be always be two digits while the number of digits in the hours is variable. `$name` will be replaced with the name of the workspace."
         }
       }
     }
