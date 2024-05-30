@@ -9,15 +9,47 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "*"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "workspacetime.helloWorld",
-        "title": "Hello World"
+        "command": "workspacetime.start",
+        "title": "WorkspaceTime: Start"
+      },
+      {
+        "command": "workspacetime.resume",
+        "title": "WorkspaceTime: Resume"
+      },
+      {
+        "command": "workspacetime.stop",
+        "title": "WorkspaceTime: Stop"
+      },
+      {
+        "command": "workspacetime.pause",
+        "title": "WorkspaceTime: Pause"
+      },
+      {
+        "command": "workspacetime.toggle",
+        "title": "WorkspaceTime: Toggle"
+      },
+      {
+        "command": "workspacetime.reset",
+        "title": "WorkspaceTime: Reset"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "WorkspaceTime",
+      "properties": {
+        "workspacetime.pattern": {
+          "type": "string",
+          "default": "$time elapsed in workspace",
+          "markdownDescription": "The text pattern that will be displayed in the status bar item, with `$time` where the time will go."
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
