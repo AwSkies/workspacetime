@@ -97,9 +97,9 @@ function increment() {
 }
 
 function setText(seconds: number) {
-	const date = new Date(seconds * 1000);
-	const icon = running ? 'clock' : 'debug-pause';
-	statusBarItem.text = (config.get('pattern') as string)
-		.replace('$time', `$(${icon}) ${date.getUTCHours()}:${date.getUTCMinutes().toString().padStart(2, '0')}:${date.getUTCSeconds().toString().padStart(2, '0')}`)
-		.replace('$name', vscode.workspace.name!);
+	statusBarItem.text = `$(${running ? 'clock' : 'debug-pause'}) ${config.get<string>('pattern')!
+		.replace('$hours', Math.floor(seconds / 3600 % 3600).toString())
+		.replace('$minutes', Math.floor(seconds / 60 % 60).toString().padStart(2, '0'))
+		.replace('$seconds', (seconds % 60).toString().padStart(2, '0'))
+		.replace('$name', vscode.workspace.name!)}`;
 }
