@@ -48,8 +48,13 @@
           "default": "$hours:$minutes:$seconds elapsed in $name",
           "markdownDescription": "The text pattern that will be displayed in the status bar item. `$hours`, `$minutes`, and `$seconds` will be replaced with the corresponding lengths of time. Minutes and seconds will be always be two digits while the number of digits in the hours is variable. `$name` will be replaced with the name of the workspace."
         },
+        "workspacetime.idleTimeout": {
+          "type": "integer",
+          "default": 300,
+          "description": "The allowed amount of seconds of inactivity before the timer automatically pauses."
+        },
         "workspacetime.startOnOpen": {
-          "type":"boolean",
+          "type": "boolean",
           "default": true,
           "markdownDescription": "Whether the timer starts every time a workspace opens. If `false`, then you need to use the `start` command to begin the timer."
         }

@@ -9,7 +9,9 @@ let statusBarItem: vscode.StatusBarItem;
 let workspaceState: vscode.Memento;
 let interval: NodeJS.Timeout;
 let running = false;
+let activated = false;
 let seconds: number;
+let lastActivityTime: number;
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -38,7 +40,59 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(statusBarItem);
 
 	seconds = context.workspaceState.get<number>(timeKey) ?? 0;
+	lastActivityTime = seconds;
 	workspaceState = context.workspaceState;
+
+	// Update activity on basically any event
+	const listeners = [
+		vscode.authentication.onDidChangeSessions,
+		vscode.debug.onDidChangeActiveDebugSession,
+		vscode.debug.onDidChangeBreakpoints,
+		vscode.debug.onDidReceiveDebugSessionCustomEvent,
+		vscode.debug.onDidStartDebugSession,
+		vscode.debug.onDidTerminateDebugSession,
+		vscode.env.onDidChangeLogLevel,
+		vscode.env.onDidChangeShell,
+		vscode.env.onDidChangeTelemetryEnabled,
+		vscode.extensions.onDidChange,
+		vscode.tasks.onDidEndTask,
+		vscode.tasks.onDidEndTaskProcess,
+		vscode.tasks.onDidStartTask,
+		vscode.tasks.onDidStartTaskProcess,
+		vscode.window.onDidChangeActiveColorTheme,
+		vscode.window.onDidChangeActiveTextEditor,
+		vscode.window.onDidChangeActiveNotebookEditor,
+		vscode.window.onDidChangeActiveTerminal,
+		vscode.window.onDidChangeNotebookEditorSelection,
+		vscode.window.onDidChangeNotebookEditorVisibleRanges,
+		vscode.window.onDidChangeTerminalState,
+		vscode.window.onDidChangeTextEditorOptions,
+		vscode.window.onDidChangeTextEditorSelection,
+		vscode.window.onDidChangeTextEditorViewColumn,
+		vscode.window.onDidChangeTextEditorVisibleRanges,
+		vscode.window.onDidChangeVisibleNotebookEditors,
+		vscode.window.onDidChangeVisibleTextEditors,
+		vscode.window.onDidChangeWindowState,
+		vscode.window.onDidCloseTerminal,
+		vscode.window.onDidOpenTerminal,
+		vscode.workspace.onDidChangeConfiguration,
+		vscode.workspace.onDidChangeNotebookDocument,
+		vscode.workspace.onDidChangeTextDocument,
+		vscode.workspace.onDidChangeWorkspaceFolders,
+		vscode.workspace.onDidCloseNotebookDocument,
+		vscode.workspace.onDidCloseTextDocument,
+		vscode.workspace.onDidCreateFiles,
+		vscode.workspace.onDidDeleteFiles,
+		vscode.workspace.onDidOpenNotebookDocument,
+		vscode.workspace.onDidOpenTextDocument,
+		vscode.workspace.onDidRenameFiles,
+		vscode.workspace.onDidRenameFiles,
+		vscode.workspace.onDidSaveNotebookDocument,
+		vscode.workspace.onDidSaveTextDocument
+	];
+	for (const listener of listeners) {
+		context.subscriptions.push(listener(e => handleActivity()));
+	}
 
 	// Only start if configured to do so
 	if (config.get<boolean>('startOnOpen')) {
@@ -53,11 +107,13 @@ export function deactivate() {
 
 function start() {
 	statusBarItem.show();
+	activated = true;
 	resume();
 }
 
 function stop() {
 	statusBarItem.hide();
+	activated = false;
 	pause();
 }
 
@@ -96,7 +152,18 @@ function reset() {
 function increment() {
 	seconds++;
 	workspaceState.update(timeKey, seconds);
+	const timedOut = seconds - lastActivityTime > config.get<number>('idleTimeout')!;
+	if (timedOut) {
+		pause();
+	}
 	updateText();
+}
+
+function handleActivity() {
+	lastActivityTime = seconds;
+	if (!running && activated) {
+		resume();
+	}
 }
 
 function updateText() {
