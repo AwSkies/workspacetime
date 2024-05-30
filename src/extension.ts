@@ -62,7 +62,7 @@ function resume() {
 	if (!running) {
 		interval = setInterval(increment, 1000);
 		running = true;
-		setText(seconds);
+		updateText();
 		console.log("Timer resumed.");
 	} else {
 		vscode.window.showErrorMessage("Timer is already running.");
@@ -73,7 +73,7 @@ function pause() {
 	if (running) {
 		clearInterval(interval);
 		running = false;
-		setText(seconds);
+		updateText();
 		console.log("Timer paused.");
 	} else {
 		vscode.window.showErrorMessage("Timer is not currently running.");
@@ -87,16 +87,16 @@ function toggle() {
 function reset() {
 	seconds = 0;
 	workspaceState.update(timeKey, 0);
-	setText(0);
+	updateText();
 }
 
 function increment() {
 	seconds++;
 	workspaceState.update(timeKey, seconds);
-	setText(seconds);
+	updateText();
 }
 
-function setText(seconds: number) {
+function updateText() {
 	statusBarItem.text = `$(${running ? 'clock' : 'debug-pause'}) ${config.get<string>('pattern')!
 		.replace('$hours', Math.floor(seconds / 3600 % 3600).toString())
 		.replace('$minutes', Math.floor(seconds / 60 % 60).toString().padStart(2, '0'))
