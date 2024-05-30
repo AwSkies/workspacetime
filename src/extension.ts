@@ -14,6 +14,10 @@ let seconds: number;
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+	// Do not activate if no workspace is selected
+	if (vscode.workspace.name === undefined) {
+		return;
+	}
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
@@ -93,5 +97,7 @@ function increment() {
 function setText(seconds: number) {
 	const date = new Date(seconds * 1000);
 	const icon = running ? 'clock' : 'debug-pause';
-	statusBarItem.text = (config.get('pattern') as string).replace('$time', `$(${icon}) ${date.getUTCHours()}:${date.getUTCMinutes().toString().padStart(2, '0')}:${date.getUTCSeconds().toString().padStart(2, '0')}`);
+	statusBarItem.text = (config.get('pattern') as string)
+		.replace('$time', `$(${icon}) ${date.getUTCHours()}:${date.getUTCMinutes().toString().padStart(2, '0')}:${date.getUTCSeconds().toString().padStart(2, '0')}`)
+		.replace('$name', vscode.workspace.name!);
 }

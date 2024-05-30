@@ -10,7 +10,7 @@
     "Other"
   ],
   "activationEvents": [
-    "*"
+    "onStartupFinished"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -45,8 +45,8 @@
       "properties": {
         "workspacetime.pattern": {
           "type": "string",
-          "default": "$time elapsed in workspace",
-          "markdownDescription": "The text pattern that will be displayed in the status bar item, with `$time` where the time will go."
+          "default": "$time elapsed in $name",
+          "markdownDescription": "The text pattern that will be displayed in the status bar item. `$time` will be replaced with the elapsed time and `$name` will be replaced with the name of the workspace."
         }
       }
     }
