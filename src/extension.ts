@@ -29,16 +29,13 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('workspacetime.toggle', toggle));
 	context.subscriptions.push(vscode.commands.registerCommand('workspacetime.reset', reset));
 
-	if (!context.workspaceState.get(timeKey)) {
-		context.workspaceState.update(timeKey, 0);
-	}
-	workspaceState = context.workspaceState;
-
 	statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 0);
 	statusBarItem.command = 'workspacetime.toggle';
 	context.subscriptions.push(statusBarItem);
 
-	seconds = workspaceState.get(timeKey) as number;
+	seconds = context.workspaceState.get<number>(timeKey) ?? 0;
+
+	workspaceState = context.workspaceState;
 	start();
 }
 
