@@ -38,9 +38,12 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(statusBarItem);
 
 	seconds = context.workspaceState.get<number>(timeKey) ?? 0;
-
 	workspaceState = context.workspaceState;
-	start();
+
+	// Only start if configured to do so
+	if (config.get<boolean>('startOnOpen')) {
+		start();
+	}
 }
 
 // This method is called when your extension is deactivated
