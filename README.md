@@ -1,5 +1,5 @@
-# WorkspaceTime
-
+# WorkspaceTime 
+![Icon](./images/icon.png)  
 A simple status bar extension to automatically track time spent in a workspace.
 
 ## Features

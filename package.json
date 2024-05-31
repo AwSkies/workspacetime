@@ -2,6 +2,8 @@
   "name": "workspacetime",
   "displayName": "WorkspaceTime",
   "description": "Automatically track time spent in a workspace.",
+  "publisher": "AwSky",
+  "icon": "./images/icon.png",
   "repository": "https://github.com/AwSkies/workspacetime",
   "version": "0.0.1",
   "engines": {
