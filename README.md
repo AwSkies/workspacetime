@@ -4,14 +4,16 @@ A simple status bar extension to automatically track time spent in a workspace.
 
 ## Features
 
-- A simple timer which opens in the status bar when you open a workspace. Each workspace has its own separate timer.  
+### A Simple Timer
+#### Opens in the status bar when you open a workspace. Each workspace has its own separate timer.
 ![Open Example](./images/open.gif)
-- Toggle pause/resume on click  
+### Toggle pause/resume on click
 ![Toggle Example](./images/toggle.gif)
-- Start, stop, pause, resume, and reset with commands  
+### Start, Stop, Pause, Resume, and Reset the Timer with Commands
 ![Commands Example](./images/commands.gif)
 ![Reset Example](./images/reset.gif)
-- Copy the time  
+### Copy the Time
+#### For documenting progress, sharing with friends, etc.
 ![Copy Example](./images/copy.gif)
 
 ## Extension Settings
