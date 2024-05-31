@@ -2,7 +2,8 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
-const getConfig = <T>(configuration: string) => vscode.workspace.getConfiguration('workspacetime').get<T>(configuration);
+const namespace = 'workspacetime';
+const getConfig = <T>(configuration: string) => vscode.workspace.getConfiguration(namespace).get<T>(configuration);
 const timeKey = 'time';
 
 let statusBarItem: vscode.StatusBarItem;
@@ -28,15 +29,15 @@ export function activate(context: vscode.ExtensionContext) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	context.subscriptions.push(vscode.commands.registerCommand('workspacetime.start', start));
-	context.subscriptions.push(vscode.commands.registerCommand('workspacetime.resume', resume));
-	context.subscriptions.push(vscode.commands.registerCommand('workspacetime.stop', stop));
-	context.subscriptions.push(vscode.commands.registerCommand('workspacetime.pause', pause));
-	context.subscriptions.push(vscode.commands.registerCommand('workspacetime.toggle', toggle));
-	context.subscriptions.push(vscode.commands.registerCommand('workspacetime.reset', reset));
+	context.subscriptions.push(vscode.commands.registerCommand(`${namespace}.start`, start));
+	context.subscriptions.push(vscode.commands.registerCommand(`${namespace}.resume`, () => { resume(); activated = true; }));
+	context.subscriptions.push(vscode.commands.registerCommand(`${namespace}.stop`, stop));
+	context.subscriptions.push(vscode.commands.registerCommand(`${namespace}.pause`, () => { pause(); activated = false; }));
+	context.subscriptions.push(vscode.commands.registerCommand(`${namespace}.toggle`, toggle));
+	context.subscriptions.push(vscode.commands.registerCommand(`${namespace}.reset`, reset));
 
 	statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 0);
-	statusBarItem.command = 'workspacetime.toggle';
+	statusBarItem.command = `${namespace}.toggle`;
 	context.subscriptions.push(statusBarItem);
 
 	seconds = context.workspaceState.get<number>(timeKey) ?? 0;
@@ -123,6 +124,7 @@ function resume() {
 		running = true;
 		updateText();
 		console.log("Timer resumed.");
+		handleActivity();
 	}
 }
 
@@ -136,7 +138,7 @@ function pause() {
 }
 
 function toggle() {
-	(running ? pause : resume)();
+	vscode.commands.executeCommand(`${namespace}.${running ? 'pause' : 'resume'}`);
 }
 
 function reset() {
