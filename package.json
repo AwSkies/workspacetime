@@ -2,6 +2,7 @@
   "name": "workspacetime",
   "displayName": "WorkspaceTime",
   "description": "Automatically track time spent in a workspace.",
+  "repository": "https://github.com/AwSkies/workspacetime",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.89.0"
