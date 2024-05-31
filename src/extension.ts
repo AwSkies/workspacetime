@@ -123,8 +123,6 @@ function resume() {
 		running = true;
 		updateText();
 		console.log("Timer resumed.");
-	} else {
-		vscode.window.showErrorMessage("Timer is already running.");
 	}
 }
 
@@ -134,8 +132,6 @@ function pause() {
 		running = false;
 		updateText();
 		console.log("Timer paused.");
-	} else {
-		vscode.window.showErrorMessage("Timer is not currently running.");
 	}
 }
 
