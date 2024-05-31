@@ -39,6 +39,10 @@
       {
         "command": "workspacetime.reset",
         "title": "WorkspaceTime: Reset"
+      },
+      {
+        "command": "workspacetime.copy",
+        "title": "WorkspaceTime: Copy"
       }
     ],
     "configuration": {

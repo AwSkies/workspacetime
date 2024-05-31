@@ -35,6 +35,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand(`${namespace}.pause`, () => { pause(); activated = false; }));
 	context.subscriptions.push(vscode.commands.registerCommand(`${namespace}.toggle`, toggle));
 	context.subscriptions.push(vscode.commands.registerCommand(`${namespace}.reset`, reset));
+	context.subscriptions.push(vscode.commands.registerCommand(`${namespace}.copy`, copy));
 
 	statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 0);
 	statusBarItem.command = `${namespace}.toggle`;
@@ -147,6 +148,12 @@ function reset() {
 	updateText();
 }
 
+function copy() {
+	const text = formatText();
+	vscode.env.clipboard.writeText(text);
+	vscode.window.showInformationMessage(`"${text}" copied to clipboard.`);
+}
+
 function increment() {
 	seconds++;
 	workspaceState.update(timeKey, seconds);
@@ -166,9 +173,13 @@ function handleActivity() {
 }
 
 function updateText() {
-	statusBarItem.text = `$(${running ? 'clock' : 'debug-pause'}) ${getConfig<string>('pattern')!
+	statusBarItem.text = `$(${running ? 'clock' : 'debug-pause'}) ${formatText()}`;
+}
+
+function formatText() {
+	return getConfig<string>('pattern')!
 		.replace('$hours', Math.floor(seconds / 3600 % 3600).toString())
 		.replace('$minutes', Math.floor(seconds / 60 % 60).toString().padStart(2, '0'))
 		.replace('$seconds', (seconds % 60).toString().padStart(2, '0'))
-		.replace('$name', vscode.workspace.name!)}`;
+		.replace('$name', vscode.workspace.name!);
 }
