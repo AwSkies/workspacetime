@@ -1,4 +1,4 @@
-# WorkspaceTime README
+# WorkspaceTime
 
 A simple status bar extension to automatically track time spent in a workspace.
 
