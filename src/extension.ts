@@ -150,8 +150,9 @@ function reset() {
 function increment() {
 	seconds++;
 	workspaceState.update(timeKey, seconds);
-	const timedOut = seconds - lastActivityTime > getConfig<number>('idleTimeout')!;
-	if (timedOut) {
+	const idleTimeout = getConfig<number>('idleTimeout')!;
+	const timedOut = seconds - lastActivityTime > idleTimeout;
+	if (idleTimeout >= 0 && timedOut) {
 		pause();
 	}
 	updateText();

@@ -52,7 +52,7 @@
         "workspacetime.idleTimeout": {
           "type": "integer",
           "default": 300,
-          "description": "The allowed amount of seconds of inactivity before the timer automatically pauses."
+          "markdownDescription": "The allowed amount of seconds of inactivity before the timer automatically pauses. Put `-1` to indicate that the timer should not pause on idle."
         },
         "workspacetime.startOnOpen": {
           "type": "boolean",
