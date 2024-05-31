@@ -2,7 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
-const config = vscode.workspace.getConfiguration('workspacetime');
+const getConfig = <T>(configuration: string) => vscode.workspace.getConfiguration('workspacetime').get<T>(configuration);
 const timeKey = 'time';
 
 let statusBarItem: vscode.StatusBarItem;
@@ -95,7 +95,7 @@ export function activate(context: vscode.ExtensionContext) {
 	}
 
 	// Only start if configured to do so
-	if (config.get<boolean>('startOnOpen')) {
+	if (getConfig<boolean>('startOnOpen')) {
 		start();
 	}
 }
@@ -148,7 +148,7 @@ function reset() {
 function increment() {
 	seconds++;
 	workspaceState.update(timeKey, seconds);
-	const timedOut = seconds - lastActivityTime > config.get<number>('idleTimeout')!;
+	const timedOut = seconds - lastActivityTime > getConfig<number>('idleTimeout')!;
 	if (timedOut) {
 		pause();
 	}
@@ -163,7 +163,7 @@ function handleActivity() {
 }
 
 function updateText() {
-	statusBarItem.text = `$(${running ? 'clock' : 'debug-pause'}) ${config.get<string>('pattern')!
+	statusBarItem.text = `$(${running ? 'clock' : 'debug-pause'}) ${getConfig<string>('pattern')!
 		.replace('$hours', Math.floor(seconds / 3600 % 3600).toString())
 		.replace('$minutes', Math.floor(seconds / 60 % 60).toString().padStart(2, '0'))
 		.replace('$seconds', (seconds % 60).toString().padStart(2, '0'))
