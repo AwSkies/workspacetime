@@ -178,7 +178,7 @@ function updateText() {
 
 function formatText() {
 	return getConfig<string>('pattern')!
-		.replace('$hours', Math.floor(seconds / 3600 % 3600).toString())
+		.replace('$hours', Math.floor(seconds / 3600).toString())
 		.replace('$minutes', Math.floor(seconds / 60 % 60).toString().padStart(2, '0'))
 		.replace('$seconds', (seconds % 60).toString().padStart(2, '0'))
 		.replace('$name', vscode.workspace.name!);
