@@ -5,7 +5,7 @@
   "publisher": "AwSky",
   "icon": "./images/icon.png",
   "repository": "https://github.com/AwSkies/workspacetime",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "engines": {
     "vscode": "^1.89.0"
   },
